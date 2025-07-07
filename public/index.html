@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal Activities & Object Detection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+</head>
+<body data-theme="light">
+
+    <header class="shadow-sm py-4 px-6 md:px-8 lg:px-12 flex justify-between items-center sticky top-0 z-50 rounded-b-lg">
+        <div class="flex items-center space-x-3">
+            <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/>
+            </svg>
+            <span class="text-xl font-bold">CRIMINAL DETECTION</span>
+        </div>
+
+        <nav class="hidden md:flex space-x-8 items-center">
+            <a href="#home" class="font-medium transition duration-300 rounded-md px-3 py-2">Home</a>
+            <a href="#cctv-integration" class="font-medium transition duration-300 rounded-md px-3 py-2">Live Demo</a>
+            <a href="#features-overview" class="font-medium transition duration-300 rounded-md px-3 py-2">Features</a>
+            <a href="#object-generator" class="font-medium transition duration-300 rounded-md px-3 py-2">Object AI</a>
+            <a href="#security-advisor" class="font-medium transition duration-300 rounded-md px-3 py-2">Security AI</a>
+            <a href="#about" class="font-medium transition duration-300 rounded-md px-3 py-2">About Us</a>
+            <a href="#contact" class="font-medium transition duration-300 rounded-md px-3 py-2">Contact Us</a>
+            <div class="relative">
+                <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-sm"></i>
+            </div>
+            <button id="theme-toggle" class="ml-4 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300">
+                <i class="fas fa-moon text-lg"></i>
+            </button>
+        </nav>
+
+        <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </header>
+
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-6 rounded-lg m-4 shadow-xl">
+        <button id="close-mobile-menu" class="absolute top-6 right-6 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <a href="#home" class="text-2xl font-semibold transition duration-300 py-2">Home</a>
+        <a href="#cctv-integration" class="text-2xl font-semibold transition duration-300 py-2">Live Demo</a>
+        <a href="#features-overview" class="text-2xl font-semibold transition duration-300 py-2">Features</a>
+        <a href="#object-generator" class="text-2xl font-semibold transition duration-300 py-2">Object AI</a>
+        <a href="#security-advisor" class="text-2xl font-semibold transition duration-300 py-2">Security AI</a>
+        <a href="#about" class="text-2xl font-semibold transition duration-300 py-2">About Us</a>
+        <a href="#contact" class="text-2xl font-semibold transition duration-300 py-2">Contact Us</a>
+        <div class="relative w-3/4">
+            <input type="text" placeholder="Search..." class="pl-12 pr-4 py-3 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg">
+            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-xl"></i>
+        </div>
+        <button id="mobile-theme-toggle" class="mt-6 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300">
+            <i class="fas fa-moon text-2xl"></i>
+        </button>
+    </div>
+
+    <section id="home" class="relative py-16 md:py-24 px-6 md:px-8 lg:px-12 flex flex-col lg:flex-row items-center justify-center min-h-[calc(100vh-80px)] overflow-hidden rounded-lg m-4 shadow-md">
+        <div class="lg:w-1/2 text-center lg:text-left mb-12 lg:mb-0 lg:pr-12">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+                Criminal Activities and <span class="text-indigo-600">Object Detection</span>
+            </h1>
+            <p class="text-lg md:text-xl mb-8 max-w-xl mx-auto lg:mx-0">
+                Leveraging cutting-edge AI to enhance security and provide real-time insights into suspicious activities and objects. Our advanced system ensures a safer environment for everyone.
+            </p>
+            <div class="relative mb-8 max-w-md mx-auto lg:mx-0">
+                <input type="text" placeholder="Search for information..." class="w-full pl-12 pr-4 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg shadow-sm">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-xl"></i>
+            </div>
+            <button id="explore-features-btn" class="gradient-button text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 text-lg">
+                Explore Features
+            </button>
+        </div>
+        <div class="lg:w-1/2 flex justify-center items-center relative">
+            <canvas id="hero-animation-canvas" class="rounded-xl shadow-2xl w-full max-w-lg h-64 md:h-80 lg:h-96"></canvas>
+            <div class="absolute -bottom-10 md:-bottom-16 lg:-bottom-20 flex space-x-6 p-4 rounded-full shadow-xl">
+                <div class="flex flex-col items-center text-indigo-600">
+                    <i class="fas fa-eye text-3xl mb-2"></i>
+                    <span class="text-sm font-medium">Real-time</span>
+                </div>
+                <div class="flex flex-col items-center text-indigo-600">
+                    <i class="fas fa-shield-alt text-3xl mb-2"></i>
+                    <span class="text-sm font-medium">Secure</span>
+                </div>
+                <div class="flex flex-col items-center text-indigo-600">
+                    <i class="fas fa-chart-line text-3xl mb-2"></i>
+                    <span class="text-sm font-medium">Analytics</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cctv-integration" class="py-16 md:py-24 px-6 md:px-8 lg:px-12 rounded-lg m-4 shadow-md text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 section-heading">CCTV INTEGRATION & LIVE DETECTION</h2>
+        <div class="max-w-4xl mx-auto">
+            <p class="text-lg mb-8">
+                Experience the potential of real-time object and activity detection. Click the button below to connect your webcam and see a **simulated demonstration** of our detection capabilities.
+            </p>
+            <p class="text-sm italic text-red-500 mb-6">
+                <strong>Important Note:</strong> For actual CCTV integration and running your Python detection models live, a separate backend application (like a Python server) is required to process video streams. This web page provides a simulated demonstration using your webcam.
+            </p>
+
+            <div class="relative w-full max-w-2xl mx-auto rounded-xl shadow-lg overflow-hidden mb-8">
+                <video id="cctv-feed" class="w-full h-auto rounded-xl" autoplay muted></video>
+                <img id="cctv-placeholder" src="https://placehold.co/600x400/2a2a4a/00ffff?text=CCTV+Feed+Placeholder" alt="CCTV Feed Placeholder" class="w-full h-auto rounded-xl">
+                <div id="detection-overlay" class="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold hidden">
+                    <!-- Detection results will be displayed here -->
+                </div>
+            </div>
+
+            <button id="connect-cctv-btn" class="gradient-button text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 text-lg">
+                Connect Webcam & Simulate Detection
+            </button>
+
+            <div id="cctv-status" class="mt-6 text-lg font-medium">
+                Status: Ready
+            </div>
+        </div>
+    </section>
+
+
+    <section id="features-overview" class="py-16 md:py-24 px-6 md:px-8 lg:px-12 rounded-lg m-4 shadow-md">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 section-heading">OUR ADVANCED FEATURES</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="feature-card p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/1a1a2e/00ffff?text=Weapon+Detection" alt="Weapon Detection" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Weapon Detection</h3>
+                <p class="text-sm mb-4">Real-time identification of firearms and knives in video feeds to alert security personnel instantly.</p>
+                <button class="view-details-btn gradient-button text-white font-semibold py-2 px-4 rounded-md text-sm w-full"
+                        data-feature="weapon">View Details</button>
+            </div>
+
+            <div class="feature-card p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/1a1a2e/ff0000?text=Fire+and+Smoke" alt="Fire and Smoke Detection" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Fire and Smoke Detection</h3>
+                <p class="text-sm mb-4">Automated detection of fire and smoke occurrences for early warning and rapid response.</p>
+                <button class="view-details-btn gradient-button text-white font-semibold py-2 px-4 rounded-md text-sm w-full"
+                        data-feature="fire_smoke">View Details</button>
+            </div>
+
+            <div class="feature-card p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/1a1a2e/00ff00?text=License+Plate" alt="License Plate Recognition" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">License Plate Recognition</h3>
+                <p class="text-sm mb-4">Accurate recognition of vehicle license plates for access control and tracking purposes.</p>
+                <button class="view-details-btn gradient-button text-white font-semibold py-2 px-4 rounded-md text-sm w-full"
+                        data-feature="license_plate">View Details</button>
+            </div>
+
+            <div class="feature-card p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/1a1a2e/ffff00?text=Theft+Detection" alt="Theft Detection" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Theft Detection (Object Disappearance)</h3>
+                <p class="text-sm mb-4">Identifies when specific valuable objects are removed from a monitored area, triggering alerts.</p>
+                <button class="view-details-btn gradient-button text-white font-semibold py-2 px-4 rounded-md text-sm w-full"
+                        data-feature="theft">View Details</button>
+            </div>
+
+            <div class="feature-card p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/1a1a2e/ff6600?text=Crowd+Detection" alt="Crowd Detection" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Crowd Detection</h3>
+                <p class="text-sm mb-4">Monitors crowd density in public spaces to identify potential risks or unusual gatherings.</p>
+                <button class="view-details-btn gradient-button text-white font-semibold py-2 px-4 rounded-md text-sm w-full"
+                        data-feature="crowd" data-page="crowd_detection.html">View Details</button> <!-- ADDED data-page attribute here -->
+            </div>
+        </div>
+    </section>
+
+    <section id="object-generator" class="py-16 md:py-24 px-6 md:px-8 lg:px-12 rounded-lg m-4 shadow-md">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 section-heading">OBJECT DESCRIPTION GENERATOR ✨</h2>
+        <div class="max-w-3xl mx-auto p-8 rounded-xl shadow-lg">
+            <p class="text-center mb-6">Enter an object, and our AI will generate a detailed description, including its characteristics and potential relevance in a security context.</p>
+            <div class="mb-6">
+                <label for="object-input" class="block text-lg font-medium mb-2">Enter Object Name:</label>
+                <input type="text" id="object-input" class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg" placeholder="e.g., knife, backpack, vehicle">
+            </div>
+            <button id="generate-object-description" class="gradient-button text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 text-lg w-full mb-6">
+                Generate Description ✨
+            </button>
+            <div id="object-loading-indicator" class="hidden text-center font-medium mb-4">
+                <i class="fas fa-spinner fa-spin mr-2"></i> Generating...
+            </div>
+            <div id="object-description-output" class="p-6 rounded-lg border min-h-[150px] leading-relaxed overflow-auto">
+                <p class="italic">Description will appear here after generation.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-16 md:py-24 px-6 md:px-8 lg:px-12 rounded-lg m-4 shadow-md">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 section-heading">ABOUT US</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/d1d5db/4b5563?text=Advanced+AI" alt="Advanced AI" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Advanced AI Capabilities</h3>
+                <p class="text-sm">Our system utilizes state-of-the-art artificial intelligence and machine learning algorithms for unparalleled accuracy in detection.</p>
+            </div>
+            <div class="p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/d1d5db/4b5563?text=Real-time+Monitoring" alt="Real-time Monitoring" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Real-time Monitoring</h3>
+                <p class="text-sm">Experience instant alerts and continuous surveillance, providing immediate insights into potential threats and activities.</p>
+            </div>
+            <div class="p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/d1d5db/4b5563?text=Scalable+Solution" alt="Scalable Solution" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Scalable & Flexible</h3>
+                <p class="text-sm">Designed to adapt to various environments, from small businesses to large urban areas, our solution scales with your needs.</p>
+            </div>
+            <div class="p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <img src="https://placehold.co/400x250/d1d5db/4b5563?text=Data+Privacy" alt="Data Privacy" class="rounded-lg mb-4 w-full h-40 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Data Privacy & Security</h3>
+                <p class="text-sm">We prioritize your data's integrity and privacy with robust encryption and secure handling protocols.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="security-advisor" class="py-16 md:py-24 px-6 md:px-8 lg:px-12 rounded-lg m-4 shadow-md">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 section-heading">SECURITY PROTOCOL ADVISOR ✨</h2>
+        <div class="max-w-3xl mx-auto p-8 rounded-xl shadow-lg">
+            <p class="text-center mb-6">Describe a security scenario, and our AI will provide general advice on relevant security protocols and considerations.</p>
+            <div class="mb-6">
+                <label for="scenario-input" class="block text-lg font-medium mb-2">Describe Scenario:</label>
+                <textarea id="scenario-input" rows="5" class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg" placeholder="e.g., securing a small retail store at night, monitoring a large public event"></textarea>
+            </div>
+            <button id="generate-security-advice" class="gradient-button text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 text-lg w-full mb-6">
+                Get Security Advice ✨
+            </button>
+            <div id="security-loading-indicator" class="hidden text-center font-medium mb-4">
+                <i class="fas fa-spinner fa-spin mr-2"></i> Generating...
+            </div>
+            <div id="security-advice-output" class="p-6 rounded-lg border min-h-[150px] leading-relaxed overflow-auto">
+                <p class="italic">Security advice will appear here after generation.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 md:py-24 px-6 md:px-8 lg:px-12 rounded-lg m-4 shadow-md">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 section-heading">CONTACT US</h2>
+        <div class="flex flex-col lg:flex-row items-center justify-center gap-12">
+            <div class="p-8 rounded-xl shadow-lg max-w-lg w-full">
+                <h3 class="text-2xl font-semibold mb-6">Get in Touch</h3>
+                <form class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium mb-1">Name</label>
+                        <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium mb-1">Email</label>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium mb-1">Message</label>
+                        <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                    </div>
+                    <button type="submit" class="gradient-button text-white font-semibold py-3 px-6 rounded-md shadow-lg hover:shadow-xl transition duration-300 w-full">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+            <div class="p-8 rounded-xl shadow-lg max-w-lg w-full">
+                <h3 class="text-2xl font-semibold mb-6">Our Location</h3>
+                <p class="mb-4 flex items-center"><i class="fas fa-map-marker-alt text-indigo-600 mr-3"></i> 123 Security Lane, Tech City, ST 12345</p>
+                <p class="mb-4 flex items-center"><i class="fas fa-phone-alt text-indigo-600 mr-3"></i> +1 (555) 123-4567</p>
+                <p class="mb-6 flex items-center"><i class="fas fa-envelope text-indigo-600 mr-3"></i> info@criminaldetection.com</p>
+                <div class="bg-gray-200 rounded-lg h-64 w-full flex items-center justify-center text-lg">
+                    <img src="https://placehold.co/500x300/e0e0e0/333333?text=Map+Location" alt="Map Location" class="rounded-lg w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 px-6 md:px-8 lg:px-12 text-center rounded-t-lg mt-4">
+        <p>&copy; 2025 Criminal Activities & Object Detection. All rights reserved.</p>
+        <div class="flex justify-center space-x-6 mt-4">
+            <a href="#" class="transition duration-300"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="transition duration-300"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="transition duration-300"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <!-- Feature Details Modal -->
+    <div id="feature-modal" class="modal-overlay hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content relative w-full max-w-2xl rounded-xl shadow-2xl p-8">
+            <button id="close-modal" class="absolute top-4 right-4 p-2 rounded-full text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="modal-feature-title" class="text-2xl font-bold mb-4 text-center"></h3>
+            <img id="modal-feature-image" src="" alt="Feature Demo" class="rounded-lg mb-6 w-full object-cover max-h-80">
+            <p id="modal-feature-description" class="mb-4 leading-relaxed"></p>
+            <p id="modal-feature-how-it-works" class="text-sm italic"></p>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+    <script src="animation.js"></script>
+</body>
+</html>

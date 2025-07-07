@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Crowd Detection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> </head>
+<body data-theme="light">
+
+    <header class="shadow-sm py-4 px-6 md:px-8 lg:px-12 flex justify-between items-center sticky top-0 z-50 rounded-b-lg">
+        <div class="flex items-center space-x-3">
+            <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/>
+            </svg>
+            <span class="text-xl font-bold">CRIMINAL DETECTION</span>
+        </div>
+        <nav class="hidden md:flex space-x-8 items-center">
+            <a href="index.html#home" class="font-medium transition duration-300 rounded-md px-3 py-2">Home</a>
+            <a href="index.html#cctv-integration" class="font-medium transition duration-300 rounded-md px-3 py-2">Live Demo</a>
+            <a href="index.html#features-overview" class="font-medium transition duration-300 rounded-md px-3 py-2">Features</a>
+            <a href="index.html#object-generator" class="font-medium transition duration-300 rounded-md px-3 py-2">Object AI</a>
+            <a href="index.html#security-advisor" class="font-medium transition duration-300 rounded-md px-3 py-2">Security AI</a>
+            <a href="index.html#about" class="font-medium transition duration-300 rounded-md px-3 py-2">About Us</a>
+            <a href="index.html#contact" class="font-medium transition duration-300 rounded-md px-3 py-2">Contact Us</a>
+            <div class="relative">
+                <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-sm"></i>
+            </div>
+            <button id="theme-toggle" class="ml-4 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300">
+                <i class="fas fa-moon text-lg"></i>
+            </button>
+        </nav>
+        <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </header>
+
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-6 rounded-lg m-4 shadow-xl">
+        <button id="close-mobile-menu" class="absolute top-6 right-6 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <a href="index.html#home" class="text-2xl font-semibold transition duration-300 py-2">Home</a>
+        <a href="index.html#cctv-integration" class="text-2xl font-semibold transition duration-300 py-2">Live Demo</a>
+        <a href="index.html#features-overview" class="text-2xl font-semibold transition duration-300 py-2">Features</a>
+        <a href="index.html#object-generator" class="text-2xl font-semibold transition duration-300 py-2">Object AI</a>
+        <a href="index.html#security-advisor" class="text-2xl font-semibold transition duration-300 py-2">Security AI</a>
+        <a href="index.html#about" class="text-2xl font-semibold transition duration-300 py-2">About Us</a>
+        <a href="index.html#contact" class="text-2xl font-semibold transition duration-300 py-2">Contact Us</a>
+        <div class="relative w-3/4">
+            <input type="text" placeholder="Search..." class="pl-12 pr-4 py-3 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg">
+            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-xl"></i>
+        </div>
+        <button id="mobile-theme-toggle" class="mt-6 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300">
+            <i class="fas fa-moon text-2xl"></i>
+        </button>
+    </div>
+
+    <main class="py-16 md:py-24 px-6 md:px-8 lg:px-12 rounded-lg m-4 shadow-md text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-12 section-heading">LIVE CROWD DETECTION</h1>
+        <div class="max-w-4xl mx-auto">
+            <p class="text-lg mb-8">
+                Connect your webcam to see real-time crowd density analysis. This feature helps monitor public spaces for unusual gatherings or potential risks.
+            </p>
+            <p class="text-sm italic text-red-500 mb-6">
+                <strong>Important Note:</strong> This web page streams your webcam to a local Python backend for processing. Ensure both your Node.js and Python servers are running.
+            </p>
+
+            <div class="relative w-full max-w-2xl mx-auto rounded-xl shadow-lg overflow-hidden mb-8">
+                <video id="live-feed" class="w-full h-auto rounded-xl" autoplay muted></video>
+                <img id="live-feed-placeholder" src="https://placehold.co/600x400/2a2a4a/ff6600?text=Live+Crowd+Detection+Feed" alt="Live Feed Placeholder" class="w-full h-auto rounded-xl">
+                <canvas id="detection-canvas" class="absolute inset-0 w-full h-full"></canvas>
+            </div>
+
+            <div id="detection-status" class="mt-6 text-lg font-medium">
+                Status: Ready. Click "Start Detection" to begin.
+            </div>
+
+            <button id="start-detection-btn" class="gradient-button text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 text-lg mt-4">
+                Start Crowd Detection
+            </button>
+            <button id="stop-detection-btn" class="gradient-button text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 text-lg mt-4 ml-4 hidden">
+                Stop Detection
+            </button>
+        </div>
+    </main>
+
+    <footer class="py-8 px-6 md:px-8 lg:px-12 text-center rounded-t-lg mt-4">
+        <p>&copy; 2025 Criminal Activities & Object Detection. All rights reserved.</p>
+        <div class="flex justify-center space-x-6 mt-4">
+            <a href="#" class="transition duration-300"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="transition duration-300"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="transition duration-300"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle logic (copied from main script.js for this page to function independently)
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        const body = document.body;
+
+        function applyTheme(theme) {
+            body.dataset.theme = theme;
+            localStorage.setItem('theme', theme);
+            if (theme === 'dark') {
+                themeToggleBtn.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+                if (mobileThemeToggleBtn) mobileThemeToggleBtn.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeToggleBtn.querySelector('i').classList.replace('fa-sun', 'fa-moon');
+                if (mobileThemeToggleBtn) mobileThemeToggleBtn.querySelector('i').classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = body.dataset.theme;
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', toggleTheme);
+        }
+        if (mobileThemeToggleBtn) {
+            mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else {
+            applyTheme('light');
+        }
+
+        // Mobile menu logic (copied for this page)
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = mobileMenu.querySelectorAll('a');
+
+        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('open'); });
+        closeMobileMenuButton.addEventListener('click', () => { mobileMenu.classList.remove('open'); });
+        navLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('open'); }); });
+        mobileMenu.addEventListener('click', (event) => { if (event.target === mobileMenu) { mobileMenu.classList.remove('open'); } });
+
+
+        // --- Crowd Detection Page Specific JavaScript Logic ---
+        const liveFeed = document.getElementById('live-feed');
+        const liveFeedPlaceholder = document.getElementById('live-feed-placeholder');
+        const detectionCanvas = document.getElementById('detection-canvas');
+        const detectionCtx = detectionCanvas.getContext('2d');
+        const detectionStatus = document.getElementById('detection-status');
+        const startDetectionBtn = document.getElementById('start-detection-btn');
+        const stopDetectionBtn = document.getElementById('stop-detection-btn');
+
+        let mediaStream = null;
+        let detectionInterval = null;
+        let isDetecting = false; // Flag to control the detection loop
+
+        // Function to draw detection results on canvas
+        function drawDetection(detectionText, color) {
+            detectionCtx.clearRect(0, 0, detectionCanvas.width, detectionCanvas.height); // Clear previous drawings
+
+            if (!detectionText) { // If no text, just clear and return
+                return;
+            }
+
+            detectionCtx.font = 'bold 36px Inter'; // Use Inter font
+            detectionCtx.fillStyle = color;
+            detectionCtx.strokeStyle = color; // For outline
+            detectionCtx.lineWidth = 2;
+            detectionCtx.textAlign = 'center';
+            detectionCtx.textBaseline = 'middle';
+
+            const textMetrics = detectionCtx.measureText(detectionText);
+            const textWidth = textMetrics.width;
+            const textHeight = parseInt(detectionCtx.font); // Approximate height from font size
+
+            const x = detectionCanvas.width / 2;
+            const y = detectionCanvas.height / 2;
+
+            // Add a background rectangle for better readability
+            const padding = 20;
+            detectionCtx.fillRect(x - textWidth / 2 - padding / 2, y - textHeight / 2 - padding / 2, textWidth + padding, textHeight + padding);
+            detectionCtx.fillStyle = 'white'; // Text color
+            detectionCtx.fillText(detectionText, x, y);
+        }
+
+        // Function to send frame to backend for detection
+        async function sendFrameForDetection() {
+            if (!liveFeed.srcObject || liveFeed.paused || liveFeed.ended || !isDetecting) {
+                console.warn("Video stream not active or detection stopped.");
+                return;
+            }
+
+            // Ensure canvas matches video dimensions
+            if (detectionCanvas.width !== liveFeed.videoWidth || detectionCanvas.height !== liveFeed.videoHeight) {
+                detectionCanvas.width = liveFeed.videoWidth;
+                detectionCanvas.height = liveFeed.videoHeight;
+            }
+
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = liveFeed.videoWidth;
+            tempCanvas.height = liveFeed.videoHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(liveFeed, 0, 0, tempCanvas.width, tempCanvas.height);
+
+            const imageData = tempCanvas.toDataURL('image/jpeg', 0.7); // Get base64 image data (0.7 quality)
+
+            try {
+                // Send frame to Node.js which then proxies to Python
+                const response = await fetch('/detect-crowd', { // NEW ENDPOINT for Crowd Detection
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: imageData })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Crowd Detection Backend Error:', errorData);
+                    detectionStatus.textContent = `Error: ${errorData.error || 'Backend Issue'}`;
+                    drawDetection("ERROR", "#800000"); // Dark red error
+                    // Don't stop entirely, might be a temporary hiccup
+                    return;
+                }
+
+                const result = await response.json();
+                console.log("Crowd Detection Result:", result);
+
+                if (result.detection) {
+                    detectionStatus.textContent = `Status: ${result.detection}`;
+                    drawDetection(result.detection, result.color); // Draw detection on canvas
+                } else {
+                    detectionStatus.textContent = "Status: No specific detection.";
+                    drawDetection("", ""); // Clear canvas
+                }
+
+            } catch (error) {
+                console.error('Error sending frame for crowd detection:', error);
+                detectionStatus.textContent = "Status: Detection Error! Is Python backend running and accessible?";
+                drawDetection("CONNECTION ERROR", "#800000"); // Indicate connection issue
+                // Consider stopping the stream if connection errors persist, but not on first error.
+            }
+        }
+
+        // Function to start webcam and detection
+        async function startDetection() {
+            if (isDetecting) return; // Prevent multiple starts
+
+            // Ensure previous stream is stopped cleanly
+            stopDetection();
+
+            detectionStatus.textContent = "Status: Connecting to webcam...";
+            liveFeedPlaceholder.classList.add('hidden');
+            liveFeed.classList.remove('hidden');
+            detectionCanvas.classList.remove('hidden');
+            startDetectionBtn.classList.add('hidden');
+            stopDetectionBtn.classList.remove('hidden');
+            drawDetection("", ""); // Clear any old error messages on canvas
+
+            try {
+                // Request media stream from webcam
+                mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                liveFeed.srcObject = mediaStream;
+
+                liveFeed.onloadedmetadata = () => {
+                    // Set canvas dimensions to match video
+                    detectionCanvas.width = liveFeed.videoWidth;
+                    detectionCanvas.height = liveFeed.videoHeight;
+                };
+
+                detectionStatus.textContent = "Status: Webcam Connected. Running Crowd Detection...";
+                isDetecting = true;
+
+                // Inform Python backend to switch to 'crowd' detection mode
+                await fetch('/set-detection-mode', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: 'crowd' })
+                });
+
+                // Start sending frames for detection periodically
+                // Adjust interval based on desired frame rate and backend processing speed
+                detectionInterval = setInterval(sendFrameForDetection, 300); // Send frame every 300ms (approx 3-4 FPS)
+
+            } catch (err) {
+                console.error("Error accessing webcam:", err);
+                detectionStatus.textContent = "Status: Error connecting webcam. Please allow camera access.";
+                liveFeedPlaceholder.classList.remove('hidden');
+                liveFeed.classList.add('hidden');
+                detectionCanvas.classList.add('hidden');
+                startDetectionBtn.classList.remove('hidden');
+                stopDetectionBtn.classList.add('hidden');
+                mediaStream = null;
+                clearInterval(detectionInterval);
+                isDetecting = false;
+                drawDetection("WEBCAM ERROR", "#FF0000");
+            }
+        }
+
+        // Function to stop webcam and detection
+        function stopDetection() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop()); // Stop all tracks (video, audio)
+                liveFeed.srcObject = null; // Disconnect stream from video element
+                mediaStream = null;
+            }
+            if (detectionInterval) {
+                clearInterval(detectionInterval); // Stop sending frames
+                detectionInterval = null;
+            }
+            isDetecting = false;
+            detectionCtx.clearRect(0, 0, detectionCanvas.width, detectionCanvas.height); // Clear canvas
+            liveFeedPlaceholder.classList.remove('hidden');
+            liveFeed.classList.add('hidden');
+            detectionCanvas.classList.add('hidden');
+            startDetectionBtn.classList.remove('hidden');
+            stopDetectionBtn.classList.add('hidden');
+            detectionStatus.textContent = "Status: Detection Stopped.";
+        }
+
+        // Event Listeners for buttons
+        startDetectionBtn.addEventListener('click', startDetection);
+        stopDetectionBtn.addEventListener('click', stopDetection);
+
+        // Stop detection when navigating away or closing page
+        window.addEventListener('beforeunload', stopDetection);
+
+        // Initial setup for placeholder visibility
+        liveFeedPlaceholder.classList.remove('hidden');
+        liveFeed.classList.add('hidden');
+        detectionCanvas.classList.add('hidden');
+
+    </script>
+</body>
+</html>

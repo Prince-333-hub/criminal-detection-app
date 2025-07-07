@@ -1,0 +1,433 @@
+/* style.css */
+
+/* Define CSS variables for colors (light theme defaults) */
+:root {
+    --bg-primary: #f8f9fa; /* Light grey background for body */
+    --bg-secondary: #ffffff; /* White for main sections/cards */
+    --bg-tertiary: #f3f4f6; /* Lighter grey for inputs/hover states */
+    --text-primary: #1f2937; /* Dark text for headings/main content */
+    --text-secondary: #4b5563; /* Muted grey text for paragraphs/subtle elements */
+    --border-color: #d1d5db; /* Light grey for borders */
+    --indigo-primary: #4F46E5; /* Primary indigo for accents/buttons */
+    --indigo-secondary: #6366F1; /* Lighter indigo for gradients/hovers */
+    --shadow-color: rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    --header-bg: #ffffff; /* Header background */
+    --header-shadow: rgba(0, 0, 0, 0.05); /* Header shadow */
+    --link-hover: var(--indigo-primary); /* Default link hover color */
+    --button-bg-hover-start: var(--indigo-secondary);
+    --button-bg-hover-end: var(--indigo-primary);
+    --modal-bg: rgba(255, 255, 255, 0.8); /* Modal overlay background */
+    --success-color: #10B981; /* Green for success */
+    --danger-color: #EF4444; /* Red for danger */
+    --warning-color: #F59E0B; /* Orange for warning */
+}
+
+/* Dark Theme overrides */
+body[data-theme="dark"] {
+    --bg-primary: #1a1a2e; /* Dark blue/purple background */
+    --bg-secondary: #0f0f1a; /* Even darker for main sections/cards */
+    --bg-tertiary: #2a2a4a; /* Darker for inputs/hover states */
+    --text-primary: #e0e0e0; /* Light grey text */
+    --text-secondary: #a0a0a0; /* Muted light grey text */
+    --border-color: #4a4a6e; /* Darker border */
+    --indigo-primary: #8a2be2; /* Electric Violet for neon */
+    --indigo-secondary: #00ffff; /* Cyan for neon */
+    --shadow-color: rgba(0, 255, 255, 0.2); /* Neon glow shadow */
+    --header-bg: #0f0f1a; /* Dark header background */
+    --header-shadow: rgba(0, 255, 255, 0.1); /* Subtle neon header shadow */
+    --link-hover: var(--indigo-secondary); /* Neon link hover color */
+    --button-bg-hover-start: var(--indigo-primary);
+    --button-bg-hover-end: var(--indigo-secondary);
+    --modal-bg: rgba(0, 0, 0, 0.8); /* Dark modal overlay background */
+    --success-color: #00ff00; /* Neon green for success */
+    --danger-color: #ff0000; /* Neon red for danger */
+    --warning-color: #ffcc00; /* Neon yellow for warning */
+}
+
+/* Apply variables to elements */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.5s ease, color 0.5s ease; /* Smooth theme transition */
+}
+
+/* Header */
+header {
+    background-color: var(--header-bg);
+    box-shadow: 0 2px 4px var(--header-shadow);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+header span.font-bold { /* Targeting the project name */
+    color: var(--text-primary);
+}
+
+header nav a {
+    color: var(--text-secondary);
+}
+header nav a:hover {
+    color: var(--link-hover);
+}
+
+header input {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color); /* Apply border via variable */
+    color: var(--text-primary);
+}
+header input::placeholder {
+    color: var(--text-secondary);
+}
+header .fa-search { /* Search icon */
+    color: var(--text-secondary);
+}
+header button#theme-toggle,
+header button#mobile-menu-button {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+header button#theme-toggle:hover,
+header button#mobile-menu-button:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+
+/* Mobile Menu Overlay */
+#mobile-menu {
+    background-color: var(--bg-secondary);
+    box-shadow: 0 4px 20px var(--shadow-color);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+#mobile-menu a {
+    color: var(--text-primary);
+}
+#mobile-menu a:hover {
+    color: var(--link-hover);
+}
+#mobile-menu input {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+#mobile-menu input::placeholder {
+    color: var(--text-secondary);
+}
+#mobile-menu .fa-search {
+    color: var(--text-secondary);
+}
+#mobile-menu button {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+#mobile-menu button:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+
+/* Sections */
+section {
+    background-color: var(--bg-secondary);
+    box-shadow: 0 4px 10px var(--shadow-color);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Hero Section specific gradients */
+#home {
+    background-image: linear-gradient(to br, var(--bg-primary), var(--bg-secondary));
+}
+#home h1 {
+    color: var(--text-primary);
+}
+#home h1 .text-indigo-600 { /* Specific span for "Object Detection" */
+    color: var(--indigo-primary); /* Use primary neon color */
+    text-shadow: 0 0 8px var(--indigo-secondary); /* Neon glow */
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+#home p {
+    color: var(--text-secondary);
+}
+#home input {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+#home input::placeholder {
+    color: var(--text-secondary);
+}
+#home .fa-search {
+    color: var(--text-secondary);
+}
+#home .gradient-button {
+    background-image: linear-gradient(to right, var(--indigo-primary), var(--indigo-secondary));
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+#home .gradient-button:hover {
+    background-image: linear-gradient(to right, var(--button-bg-hover-start), var(--button-bg-hover-end));
+    box-shadow: 0 6px 15px var(--shadow-color);
+}
+#home .absolute.flex { /* Feature icons container */
+    background-color: var(--bg-secondary);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+#home .absolute.flex .text-indigo-600 {
+    color: var(--indigo-primary);
+    text-shadow: 0 0 5px var(--indigo-secondary);
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+#home .absolute.flex span { /* Text under icons */
+    color: var(--text-secondary);
+}
+
+
+/* Section Headings */
+.section-heading {
+    color: var(--text-primary);
+}
+.section-heading::after {
+    background-color: var(--indigo-primary); /* Neon underline */
+    box-shadow: 0 0 8px var(--indigo-secondary); /* Neon glow */
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Cards (About Us, AI sections, NEW Feature Cards) */
+section > div.grid > div, /* For About Us cards and Feature Cards */
+section > div.max-w-3xl > div { /* For AI section containers */
+    background-color: var(--bg-tertiary); /* Use tertiary for card backgrounds */
+    box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+section > div.grid > div:hover,
+section > div.max-w-3xl > div:hover {
+    box-shadow: 0 20px 25px -5px var(--shadow-color), 0 8px 10px -6px var(--shadow-color);
+}
+section h3 {
+    color: var(--text-primary);
+}
+section p {
+    color: var(--text-secondary);
+}
+
+/* Form inputs (Contact Us, AI sections) */
+input[type="text"], input[type="email"], textarea {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+input[type="text"]::placeholder, input[type="email"]::placeholder, textarea::placeholder {
+    color: var(--text-secondary);
+}
+input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+    border-color: var(--indigo-primary);
+    box-shadow: 0 0 0 2px var(--indigo-secondary); /* Neon focus ring */
+}
+
+/* AI Output and Loading Indicators */
+#object-description-output, #security-advice-output {
+    background-color: var(--bg-secondary); /* Output boxes */
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+#object-description-output p.italic, #security-advice-output p.italic {
+    color: var(--text-secondary);
+}
+#object-loading-indicator, #security-loading-indicator {
+    color: var(--indigo-primary); /* Loading spinner color */
+}
+
+
+/* Contact Section specific elements */
+#contact .flex-col > div { /* Targeting the direct children divs in contact section */
+    background-color: var(--bg-secondary);
+    box-shadow: 0 4px 10px var(--shadow-color);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+#contact p.mb-4 i { /* Icons in contact info */
+    color: var(--indigo-primary);
+}
+#contact .bg-gray-200 { /* Map placeholder */
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+
+/* Footer */
+footer {
+    background-color: var(--header-bg); /* Use header background for consistency */
+    color: var(--text-primary);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+footer a {
+    color: var(--text-secondary);
+}
+footer a:hover {
+    color: var(--link-hover);
+}
+
+/* Hide mobile menu by default */
+#mobile-menu {
+    display: none;
+}
+/* Show mobile menu when 'open' class is present */
+#mobile-menu.open {
+    display: flex; /* Changed from block to flex for better centering */
+}
+
+/* --- Modal Styles --- */
+.modal-overlay {
+    background-color: var(--modal-bg);
+    backdrop-filter: blur(5px); /* Subtle blur for background */
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 20px var(--shadow-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-content h3 {
+    color: var(--text-primary);
+}
+
+.modal-content p {
+    color: var(--text-secondary);
+}
+
+#close-modal {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+#close-modal:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* CCTV Integration Section Specific Styles */
+#cctv-integration #cctv-status {
+    color: var(--text-primary);
+}
+#cctv-integration .text-red-500 { /* For the important note */
+    color: var(--indigo-primary); /* Use a neon color for emphasis in dark theme */
+    text-shadow: 0 0 5px var(--indigo-secondary);
+}
+#cctv-integration video, #cctv-integration img {
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 15px var(--shadow-color);
+    transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+#cctv-integration #detection-overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay for detection text */
+    color: #ff0000; /* Red for alerts */
+    text-shadow: 0 0 10px #ff0000; /* Red glow */
+    transition: background-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+}
+body[data-theme="dark"] #cctv-integration #detection-overlay {
+    color: #00ffff; /* Cyan for alerts in dark mode */
+    text-shadow: 0 0 10px #00ffff; /* Cyan glow */
+}
+
+/* --- Crowd Detection Page Specific Styles --- */
+/* Ensure elements on crowd_detection.html adhere to the theme */
+#crowd-detection-page .container {
+    background-color: var(--bg-secondary);
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+#crowd-detection-page h2 {
+    color: var(--text-primary);
+}
+
+#crowd-detection-page p {
+    color: var(--text-secondary);
+}
+
+#crowd-detection-page button {
+    background-image: linear-gradient(to right, var(--indigo-primary), var(--indigo-secondary));
+    color: white;
+    border: none;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    transition: background-image 0.3s ease, box-shadow 0.3s ease;
+}
+
+#crowd-detection-page button:hover {
+    background-image: linear-gradient(to right, var(--button-bg-hover-start), var(--button-bg-hover-end));
+    box-shadow: 0 6px 15px var(--shadow-color);
+}
+
+#crowd-detection-page #crowd-cctv-feed-container {
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 15px var(--shadow-color);
+    background-color: var(--bg-tertiary); /* Placeholder background */
+}
+
+#crowd-detection-page #crowd-cctv-feed {
+    background-color: black; /* Video background */
+}
+
+#crowd-detection-page #crowd-placeholder {
+    color: var(--text-secondary);
+}
+
+#crowd-detection-page #crowd-status {
+    color: var(--text-primary);
+}
+
+#crowd-detection-page #crowd-density-output {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Specific colors for crowd density levels */
+.density-low {
+    color: var(--success-color); /* Green */
+    font-weight: bold;
+}
+body[data-theme="dark"] .density-low {
+    text-shadow: 0 0 5px var(--success-color); /* Neon green glow */
+}
+
+.density-medium {
+    color: var(--warning-color); /* Orange/Yellow */
+    font-weight: bold;
+}
+body[data-theme="dark"] .density-medium {
+    text-shadow: 0 0 5px var(--warning-color); /* Neon yellow glow */
+}
+
+.density-high {
+    color: var(--danger-color); /* Red */
+    font-weight: bold;
+}
+body[data-theme="dark"] .density-high {
+    text-shadow: 0 0 5px var(--danger-color); /* Neon red glow */
+}
+
+/* Responsive adjustments for mobile menu */
+@media (max-width: 768px) {
+    #mobile-menu.open {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50; /* Tailwind z-50 */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    #mobile-menu .flex-col > * {
+        margin-bottom: 1rem; /* Spacing for menu items */
+    }
+
+    #mobile-menu .flex-col button {
+        width: 100%; /* Full width buttons */
+    }
+}
