@@ -1,0 +1,8 @@
+node_modules/
+venv_python/
+.env
+*.pyc
+__pycache__/
+.DS_Store
+npm-debug.log*
+yolov8n.pt

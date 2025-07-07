@@ -12,7 +12,9 @@ const app = express();
 const PORT = process.env.PORT || 8080; // Node.js server will run on this port
 
 // NEW: Python Backend URL - IMPORTANT: Ensure this matches your python_server.py port
-const PYTHON_BACKEND_URL = "http://127.0.0.1:5000"; // Flask server will run on port 5000
+// This line now reads from the environment variable (e.g., set on Render)
+// or defaults to the local address for development.
+const PYTHON_BACKEND_URL = process.env.PYTHON_BACKEND_URL || "http://127.0.0.1:5000";
 
 // Middleware to parse JSON bodies. Increase limit for large image data (base64 webcam frames).
 app.use(express.json({ limit: '50mb' }));
@@ -66,9 +68,26 @@ app.post('/detect-frame', async (req, res) => {
     }
 });
 
-// NEW Endpoint for Crowd Detection specifically (used by crowd_detection.html)
-// This endpoint will also use /detect_frame on the Python side,
-// but the Python backend will know it's in 'crowd' mode because we set it previously via /set_detection_mode.
+// NEW Endpoint for Fire & Smoke Detection specifically (used by fire_smoke_detection.html)
+app.post('/detect-fire-smoke', async (req, res) => {
+    try {
+        // This endpoint will also use /detect_frame on the Python side,
+        // but the Python backend will know it's in 'fire_smoke' mode because we set it previously.
+        const pythonResponse = await axios.post(`${PYTHON_BACKEND_URL}/detect_frame`, req.body);
+        res.json(pythonResponse.data);
+    } catch (error) {
+        console.error('Error proxying detect-fire-smoke to Python backend:', error.message);
+        if (error.response) {
+            res.status(error.response.status).json({ error: error.response.data.message || 'Error from Python backend' });
+        } else if (error.request) {
+            res.status(503).json({ error: 'Python backend is unreachable or not responding.' });
+        } else {
+            res.status(500).json({ error: 'Internal server error during request setup.' });
+        }
+    }
+});
+
+// Existing Endpoint for Crowd Detection (used by crowd_detection.html)
 app.post('/detect-crowd', async (req, res) => {
     try {
         const pythonResponse = await axios.post(`${PYTHON_BACKEND_URL}/detect_frame`, req.body);
@@ -76,10 +95,8 @@ app.post('/detect-crowd', async (req, res) => {
     } catch (error) {
         console.error('Error proxying detect-crowd to Python backend:', error.message);
         if (error.response) {
-            console.error('Python backend responded with:', error.response.data);
             res.status(error.response.status).json({ error: error.response.data.message || 'Error from Python backend' });
         } else if (error.request) {
-            console.error('No response received from Python backend (detect-crowd). Is it running?');
             res.status(503).json({ error: 'Python backend is unreachable or not responding.' });
         } else {
             res.status(500).json({ error: 'Internal server error during request setup.' });
